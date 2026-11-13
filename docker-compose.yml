@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  fileguard:
+    build: .
+    container_name: fileguard-service
+    ports:
+      - "8000:8000"
+    environment:
+      - FILEGUARD_PORT=8000
+      - FILEGUARD_DB_PATH=backend/data/fileguard.db
+    volumes:
+      - fileguard-data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  fileguard-data:

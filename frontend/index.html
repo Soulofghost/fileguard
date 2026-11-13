@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FileGuard | Cryptographic File Integrity Monitor (FIM)</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-shield">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h2>FileGuard</h2>
+          <span class="tagline">CRYPTOGRAPHIC FILE INTEGRITY MONITOR</span>
+        </div>
+      </div>
+
+      <div class="nav-stats">
+        <div class="stat-pill">
+          <span class="stat-label">MONITORED FILES</span>
+          <span class="stat-val" id="filesMonitored">4 Files</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-label">ACTIVE BREACHES</span>
+          <span class="stat-val text-red" id="activeAlerts">1 Critical</span>
+        </div>
+        <button class="btn btn-primary" id="openBaselineModal">+ New Baseline</button>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <div class="top-row">
+        <div>
+          <h1>Security Baseline & Integrity Telemetry</h1>
+          <p class="subtitle">Recursive SHA-256 baseline hashing detecting unauthorized file modifications, deletions, and rootkit creation</p>
+        </div>
+        <div class="nav-actions">
+          <button class="btn btn-secondary" id="triggerScanBtn">⚡ Run Integrity Audit</button>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-menu">
+        <button class="tab-btn active" data-tab="alerts">🚨 Integrity Alerts</button>
+        <button class="tab-btn" data-tab="baselines">📁 Monitored Baselines</button>
+      </div>
+
+      <!-- TAB 1: ALERTS -->
+      <section class="tab-content active" id="tabAlerts">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>File Path</th>
+                <th>Change Event</th>
+                <th>Hash Verification Diff</th>
+                <th>Detection Timestamp</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="alertsTableBody">
+              <tr><td colspan="6" class="text-center text-muted">Loading integrity alerts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 2: BASELINES -->
+      <section class="tab-content" id="tabBaselines">
+        <div class="baselines-grid" id="baselinesGrid">
+          <div class="loading-state">Loading active security baselines...</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: Create Baseline -->
+  <div class="modal-overlay" id="baselineModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Create Monitored Baseline</h3>
+        <button class="btn-close" id="closeBaselineBtn">&times;</button>
+      </div>
+      <form id="createBaselineForm">
+        <div class="field">
+          <label>Baseline Label *</label>
+          <input type="text" id="baseName" required placeholder="e.g. Nginx Webroot Configuration">
+        </div>
+        <div class="field">
+          <label>Directory Path *</label>
+          <input type="text" id="basePath" required placeholder="e.g. /etc/nginx or /var/www">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelBaselineBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Cryptographic Snapshot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
